@@ -1,0 +1,54 @@
+{
+    "name": "the42coders/eu-cookie-consent",
+    "description": "To make your site compliant to the EU GDPR law you can use this package and customize it to your needs.",
+    "keywords": [
+        "42coders",
+        "eu-cookie-consent"
+    ],
+    "homepage": "https://github.com/42coders/eu-cookie-consent",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Max Hutschenreiter",
+            "email": "max@42coders.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.2",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "the42coders\\EuCookieConsent\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "the42coders\\EuCookieConsent\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "the42coders\\EuCookieConsent\\EuCookieConsentServiceProvider"
+            ],
+            "aliases": {
+                "EuCookieConsent": "the42coders\\EuCookieConsent\\EuCookieConsentFacade"
+            }
+        }
+    }
+}
