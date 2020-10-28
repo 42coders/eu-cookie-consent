@@ -14,7 +14,7 @@ This package provides an easily configurable view to display the message. Also i
 You can install the package via composer:
 
 ```bash
-composer require 42coders/eu-cookie-consent
+composer require the42coders/eu-cookie-consent
 ```
 
 Optionally you can publish the following Files
