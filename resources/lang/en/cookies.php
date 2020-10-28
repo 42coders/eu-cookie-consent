@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'acceptAllButton' => 'Accept all',
     'save' => 'Save',
     'PopupTitle' => 'EU Cookie Consent',
     'PopupDescription' => 'To use this Website we are using Cookies and collecting some Data. To be compliant with the EU GDPR we give you to choose if you allow us to use certain Cookies and to collect some Data.',

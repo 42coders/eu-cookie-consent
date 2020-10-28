@@ -7,19 +7,36 @@ use Illuminate\Support\Facades\Request;
 
 class EuCookieConsent
 {
-    public static function hasSettingsCookie()
+
+    /**
+     * hasSettingsCookie returns if the user have set a Cookie to determine if he already accepted your Cookie Consent
+     *
+     * @return bool
+     */
+    public function hasSettingsCookie(): bool
     {
-        return empty(self::getSettingsCookie()) ? false : true;
+        return empty($this->getSettingsCookie()) ? false : true;
     }
 
-    public static function getSettingsCookie()
+    /**
+     * getSettingsCookie reads the Cookie and decode and return it.
+     *
+     * @return mixed
+     */
+    private function getSettingsCookie()
     {
         return json_decode($_COOKIE[config('eu-cookie-consent.cookie_name')] ?? '');
     }
 
-    public static function getUserCookieSetting(string $cookieName)
+    /**
+     * getUserCookieSetting checks if a specific Cookie was accepted by the User.
+     *
+     * @param string $cookieName
+     * @return bool
+     */
+    private function getUserCookieSetting(string $cookieName): bool
     {
-        $settings = json_decode($_COOKIE[config('eu-cookie-consent.cookie_name')] ?? '');
+        $settings = $this->getSettingsCookie();
 
         if (empty($settings)) {
             return false;
@@ -28,12 +45,24 @@ class EuCookieConsent
         return isset($settings->{$cookieName}) && $settings->{$cookieName} == '1' ? true : false;
     }
 
-    public static function canIUse($cookie)
+    /**
+     * canIUse returns you if the User give you a specific permission
+     *
+     * @param $cookie (key of the cookies in the config)
+     * @return bool
+     */
+    public function canIUse($cookie): bool
     {
-        return self::getUserCookieSetting($cookie) ?? false;
+        return $this->getUserCookieSetting($cookie) ?? false;
     }
 
-    public function getCookie(string $cookieName)
+    /**
+     * returns a specific Cookie from the Config
+     *
+     * @param string $cookieName
+     * @return mixed|null
+     */
+    private function getCookie(string $cookieName)
     {
         $config = config('eu-cookie-consent.cookies');
 
@@ -46,6 +75,11 @@ class EuCookieConsent
         return null;
     }
 
+    /**
+     * getPopup returns the Html of the Popup.
+     *
+     * @return View|string
+     */
     public function getPopup()
     {
         if(!empty($_COOKIE[config('eu-cookie-consent.cookie_name')])){
@@ -60,12 +94,15 @@ class EuCookieConsent
         ]);
     }
 
-    public function getCookieHtml(string $cookieName)
-    {
-        $cookie = $this->getCookie($cookieName);
-        return $cookie ?? $cookie['html'] ?? '';
-    }
-
+    /**
+     * getHtml returns the specified value from a key as defined in destination from the cookies (or a specific cookie)
+     *
+     * Can be used to load some Scripts only if the user accepted to use them.
+     *
+     * @param $destination
+     * @param null $cookieName
+     * @return mixed|string
+     */
     public function getHtml($destination, $cookieName = null)
     {
         $settings = $this->getSettingsCookie();
@@ -101,14 +138,5 @@ class EuCookieConsent
 
         return $html;
 
-    }
-
-    public function getEuCookieConsentPopup()
-    {
-        $config = config('eu-cookie-consent.cookies');
-
-        return view('eu-cookie-consent::popup', [
-            'config' => $config,
-        ]);
     }
 }

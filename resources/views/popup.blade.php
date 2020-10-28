@@ -1,8 +1,49 @@
+<style>
+    .eu-popup{
+        position:absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        padding: 20px;
+        z-index: 4242;
+        flex-wrap: wrap;
+        background-color: white;
+        box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.75);
+        margin: 20px;
+        border-radius: 20px;
+    }
+    .eu-popup-button {
+        background-color: white;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: 1px lightgray solid;
+        border-radius: 10px;
+    }
+
+    .eu-popup-button:hover {
+        background-color: lightgray;
+        cursor: pointer;
+    }
+</style>
+<script>
+    function euCookieConsentSetCheckboxesByClassName(classname) {
+        checkboxes = document.getElementsByClassName('eu-cookie-consent-cookie');
+        for (i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].setAttribute('checked', 'checked');
+            checkboxes[i].checked = true;
+        }
+    }
+</script>
+{{-- Popup Container --}}
 <div style="{{ config('eu-cookie-consent.popup_style') }}" class="{{ config('eu-cookie-consent.popup_classes') }}">
+    {{-- Popup Title gets displayed if its set in the config --}}
     @if(isset($config['title']))
-        <div style="width: 100%;">
+        <div style="width: 100%">
             <p>
                 <b>
+                    {{-- Popup MultiLanguageSupport defines if the Text is written from the lang file or directly form the Config. --}}
                     @if($multiLanguageSupport)
                         {{ __('eu-cookie-consent::cookies.'.$config['title']) }}
                     @else
@@ -12,8 +53,9 @@
             </p>
         </div>
     @endif
+    {{-- Popup Description --}}
     @if(isset($config['description']))
-        <div style="width: 100%;">
+        <div style="width: 100%">
             @if($multiLanguageSupport)
                 {{ __('eu-cookie-consent::cookies.'.$config['description']) }}
             @else
@@ -21,35 +63,33 @@
             @endif
         </div>
     @endif
-        <div style="width: 100%;">
+
+    {{-- Popup Form which renders the Cateries and inside of them the single Cookies --}}
     <form action="{{ config('eu-cookie-consent.route') }}" method="POST">
+        <div style="width: 100%;">
 
             @foreach($config['categories'] as $categoryName => $category)
                 @include('eu-cookie-consent::category')
             @endforeach
         </div>
         <div style="margin-top: 20px;">
-            <style>
-                .eu-popup-save-button{
-                    background-color: white;
-                    padding: 10px;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    border: 1px lightgray solid;
-                    border-radius: 10px;
-                }
-                .eu-popup-save-button:hover{
-                    background-color: lightgray;
-                    cursor: pointer;
-                }
-            </style>
-            <button type="submit" class="eu-popup-save-button">
+            @if(config('eu-cookie-consent.acceptAllButton'))
+                <button class="eu-popup-button"
+                        onclick="euCookieConsentSetCheckboxesByClassName('eu-cookie-consent-cookie');">
+                    @if($multiLanguageSupport)
+                        {{__('eu-cookie-consent::cookies.acceptAllButton')}}
+                    @else
+                        {{ $config['acceptAllButton'] }}
+                    @endif
+                </button>
+            @endif
+            <button id="saveButton" type="submit" class="eu-popup-button">
                 @if($multiLanguageSupport)
                     {{__('eu-cookie-consent::cookies.save')}}
                 @else
                     {{ $config['saveButton'] }}
                 @endif
             </button>
-    </form>
         </div>
+    </form>
 </div>

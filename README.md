@@ -1,11 +1,13 @@
-# Very short description of the package
+# eu-cookie-consent helps you to stay conform with the EU cookie law
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/42coders/eu-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/42coders/eu-cookie-consent)
 [![Build Status](https://img.shields.io/travis/42coders/eu-cookie-consent/master.svg?style=flat-square)](https://travis-ci.org/42coders/eu-cookie-consent)
 [![Quality Score](https://img.shields.io/scrutinizer/g/42coders/eu-cookie-consent.svg?style=flat-square)](https://scrutinizer-ci.com/g/42coders/eu-cookie-consent)
 [![Total Downloads](https://img.shields.io/packagist/dt/42coders/eu-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/42coders/eu-cookie-consent)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+All sites owned by EU citizens or targeted towards EU citizens must comply with a crazy EU law. This law requires a dialog to be displayed to inform the users of your websites how cookies are being used. You can read more info on the legislation on [the site of the European Commission](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_2).
+
+This package provides an easily configurable view to display the message. Also included is JavaScript code to set a cookie when a user agrees with the cookie policy. The package will not display the dialog when that cookie has been set.
 
 ## Installation
 
@@ -15,10 +17,124 @@ You can install the package via composer:
 composer require 42coders/eu-cookie-consent
 ```
 
+Optionally you can publish the following Files
+
+##### Config
+This is recommended since you can configure all the consents you want to get from the visitor.
+``` bash
+php artisan vendor:publish --provider="the42Coders\eu-cookie-consent\EuCookieConsentServiceProvider" --tag="config" 
+```
+##### Views
+If you want to customize the look and feel of the Package
+``` bash
+php artisan vendor:publish --provider="the42Coders\eu-cookie-consent\EuCookieConsentServiceProvider" --tag="views" 
+```
+##### Language files
+This package comes with multilanguage support out of the box. You can translate it to the Languages you want. Or just change the default Text.
+``` bash
+php artisan vendor:publish --provider="the42Coders\eu-cookie-consent\EuCookieConsentServiceProvider" --tag="lang" 
+```
+## Config
+This is the heart of the Package you can define all the Cookies/Permissions you want to get form the User.
+``` php
+return [
+
+    /*
+     * Use this setting to enable the cookie consent dialog.
+     */
+    'enabled' => env('COOKIE_CONSENT_ENABLED', true),
+
+    /*
+     * The name of the cookie in which we store if the user
+     * has agreed to accept the conditions.
+     */
+    'cookie_name' => 'laravel_eu_cookie_consent',
+
+    /*
+     * Set the cookie duration in minutes.  Default is 365 * 24 * 60 = 1 Year.
+     */
+    'cookie_lifetime' => 365 * 24 * 60,
+
+    /*
+     * Multilanguage support
+     *
+     * If enabled the title, description, the category keys and the cookie keys are defining the key from the translation files.
+     */
+    'multilanguage_support' => true,
+
+    /*
+     * Save Cookies Route
+     */
+    'route' => '/saveTheCookie',
+
+    /*
+     * Define the style of the Popup
+     */
+    'popup_style' => '',
+
+    /*
+     * Define classes the popup should use.
+     */
+    'popup_classes' => 'eu-popup',
+
+    /*
+     * If you want to have an Accept all Button for the users
+     */
+    'acceptAllButton' => 'true',
+
+    /*
+     * Cookies
+     */
+    'cookies' => [
+        //Defines the translation Key for the saveButton
+        'saveButton' => 'Save',
+        //Optional: Defines the translation Key for the PopupTitle
+        'title' => 'PopupTitle',
+        //Optional: Defines the translation Key for the PopupDescription
+        'description' => 'PopupDescription',
+        //To make the popup easier to consume for the user you can organize your Cookies in categories.
+        'categories' => [
+            //The key defines the translation key in the translations for this category.
+            'essential' => [
+                //Optional: The description defines the key in the translations for the category description
+                'description' => 'essential_description',
+                //In this array you can define all the Cookies you want to request form the User
+                'cookies' => [
+                    //The key defines the key in the translations and is used to access the Cookie specific information
+                    'session' => [
+                        //Optional: you can set forced to make it impossible for the user to not accept this cookie.
+                        'forced' => 'true',
+                        //Optional: The description defines the key in the translations
+                        //'description' => 'key in translation File'
+                    ],
+                    'xsrf-token' => [
+                        'forced' => 'true',
+                    ],
+                ],
+            ],
+        ],
+    ],
+
+];
+```
+
 ## Usage
 
+##### Popup
+To enable the Popup you can use the following Code in your blade Files (it returns html code).
 ``` php
-// Usage description here
+{!! EuCookieConsent::getPopup() !!}
+```
+##### Permission
+If you want to check if the user gave you a specific permission. You can just pass the key of the Cookie you defined in the config file.
+``` php
+EuCookieConsent::canIUse('key from the cookies config')
+```
+##### Scripts/Imports ...
+Very often we want to play out a specific Script Tag ... only if the user allowed us. You can define
+the Scripts in the config of the cookie. If you use the key header for example you can render them from all of the cookies.
+``` php
+{!! EuCookieConsent::getHtml('header') !!}
 ```
 
 ### Testing
