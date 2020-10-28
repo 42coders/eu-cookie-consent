@@ -13,9 +13,9 @@ class EuCookieConsent
      *
      * @return bool
      */
-    public function hasSettingsCookie(): bool
+    public static function hasSettingsCookie(): bool
     {
-        return empty($this->getSettingsCookie()) ? false : true;
+        return empty(self::getSettingsCookie()) ? false : true;
     }
 
     /**
@@ -23,7 +23,7 @@ class EuCookieConsent
      *
      * @return mixed
      */
-    private function getSettingsCookie()
+    private static function getSettingsCookie()
     {
         return json_decode($_COOKIE[config('eu-cookie-consent.cookie_name')] ?? '');
     }
@@ -34,9 +34,9 @@ class EuCookieConsent
      * @param string $cookieName
      * @return bool
      */
-    private function getUserCookieSetting(string $cookieName): bool
+    private static function getUserCookieSetting(string $cookieName): bool
     {
-        $settings = $this->getSettingsCookie();
+        $settings = self::getSettingsCookie();
 
         if (empty($settings)) {
             return false;
@@ -51,9 +51,9 @@ class EuCookieConsent
      * @param $cookie (key of the cookies in the config)
      * @return bool
      */
-    public function canIUse($cookie): bool
+    public static function canIUse($cookie): bool
     {
-        return $this->getUserCookieSetting($cookie) ?? false;
+        return self::getUserCookieSetting($cookie) ?? false;
     }
 
     /**
@@ -62,7 +62,7 @@ class EuCookieConsent
      * @param string $cookieName
      * @return mixed|null
      */
-    private function getCookie(string $cookieName)
+    private static function getCookie(string $cookieName)
     {
         $config = config('eu-cookie-consent.cookies');
 
@@ -80,7 +80,7 @@ class EuCookieConsent
      *
      * @return View|string
      */
-    public function getPopup()
+    public static function getPopup()
     {
         if(!empty($_COOKIE[config('eu-cookie-consent.cookie_name')])){
             return '';
@@ -103,9 +103,9 @@ class EuCookieConsent
      * @param null $cookieName
      * @return mixed|string
      */
-    public function getHtml($destination, $cookieName = null)
+    public static function getHtml($destination, $cookieName = null)
     {
-        $settings = $this->getSettingsCookie();
+        $settings = self::getSettingsCookie();
 
         if (empty($settings)) {
             return '';
@@ -116,7 +116,7 @@ class EuCookieConsent
                 return '';
             }
 
-            $cookie = $this->getCookie($cookieName);
+            $cookie = self::getCookie($cookieName);
             if ($cookie['destination'] == $destination) {
                 return $cookie['html'] ?? '';
             }
