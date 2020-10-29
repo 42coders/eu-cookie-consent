@@ -1,13 +1,15 @@
 # eu-cookie-consent helps you to stay conform with the EU cookie law
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/42coders/eu-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/42coders/eu-cookie-consent)
-[![Build Status](https://img.shields.io/travis/42coders/eu-cookie-consent/master.svg?style=flat-square)](https://travis-ci.org/42coders/eu-cookie-consent)
-[![Quality Score](https://img.shields.io/scrutinizer/g/42coders/eu-cookie-consent.svg?style=flat-square)](https://scrutinizer-ci.com/g/42coders/eu-cookie-consent)
-[![Total Downloads](https://img.shields.io/packagist/dt/42coders/eu-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/42coders/eu-cookie-consent)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/the42coders/eu-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/42coders/eu-cookie-consent)
+[![Build Status](https://img.shields.io/travis/the42coders/eu-cookie-consent/master.svg?style=flat-square)](https://travis-ci.org/42coders/eu-cookie-consent)
+[![Quality Score](https://img.shields.io/scrutinizer/g/the42coders/eu-cookie-consent.svg?style=flat-square)](https://scrutinizer-ci.com/g/42coders/eu-cookie-consent)
+[![Total Downloads](https://img.shields.io/packagist/dt/the42coders/eu-cookie-consent.svg?style=flat-square)](https://packagist.org/packages/42coders/eu-cookie-consent)
 
 All sites owned by EU citizens or targeted towards EU citizens must comply with a crazy EU law. This law requires a dialog to be displayed to inform the users of your websites how cookies are being used. You can read more info on the legislation on [the site of the European Commission](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_2).
 
 This package provides an easily configurable view to display the message. Also included is JavaScript code to set a cookie when a user agrees with the cookie policy. The package will not display the dialog when that cookie has been set.
+
+![PopupImage](./resources/img/cookie_gdpr.png)
 
 ## Installation
 
