@@ -23,17 +23,17 @@ Optionally you can publish the following Files
 ##### Config
 This is recommended since you can configure all the consents you want to get from the visitor.
 ``` bash
-php artisan vendor:publish --provider="the42Coders\eu-cookie-consent\EuCookieConsentServiceProvider" --tag="config" 
+php artisan vendor:publish --provider="the42coders\EuCookieConsent\EuCookieConsentServiceProvider" --tag="config" 
 ```
 ##### Views
 If you want to customize the look and feel of the Package
 ``` bash
-php artisan vendor:publish --provider="the42Coders\eu-cookie-consent\EuCookieConsentServiceProvider" --tag="views" 
+php artisan vendor:publish --provider="the42coders\EuCookieConsent\EuCookieConsentServiceProvider" --tag="views" 
 ```
 ##### Language files
 This package comes with multilanguage support out of the box. You can translate it to the Languages you want. Or just change the default Text.
 ``` bash
-php artisan vendor:publish --provider="the42Coders\eu-cookie-consent\EuCookieConsentServiceProvider" --tag="lang" 
+php artisan vendor:publish --provider="the42coders\EuCookieConsent\EuCookieConsentServiceProvider" --tag="lang" 
 ```
 ## Config
 This is the heart of the Package you can define all the Cookies/Permissions you want to get form the User.
