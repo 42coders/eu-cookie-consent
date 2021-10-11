@@ -6,6 +6,7 @@ namespace the42coders\EuCookieConsent\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cookie;
+use the42coders\EuCookieConsent\EuCookieConsent;
 
 class EuCookieConsentController extends Controller
 {
@@ -17,5 +18,10 @@ class EuCookieConsentController extends Controller
             config('eu-cookie-consent.cookie_lifetime'));
 
         return redirect()->back()->withCookie($cookie);
+    }
+
+    public function getUpdatePopup(Request $request)
+    {
+        return EuCookieConsent::getPopup(true);
     }
 }

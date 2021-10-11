@@ -80,9 +80,9 @@ class EuCookieConsent
      *
      * @return View|string
      */
-    public static function getPopup()
+    public static function getPopup($forced = false)
     {
-        if(!empty($_COOKIE[config('eu-cookie-consent.cookie_name')])){
+        if(!$forced && !empty($_COOKIE[config('eu-cookie-consent.cookie_name')])){
             return '';
         }
 
@@ -92,6 +92,16 @@ class EuCookieConsent
             'config' => $config,
             'multiLanguageSupport' => $multiLanguageSupport,
         ]);
+    }
+
+    /**
+     * getUpdatePopup returns the Html for calling the function of showing the Popup to change your settings.
+     *
+     * @return View|string
+     */
+    public static function getUpdatePopup()
+    {
+        return view('eu-cookie-consent::update_popup');
     }
 
     /**

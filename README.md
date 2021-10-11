@@ -126,6 +126,18 @@ To enable the Popup you can use the following Code in your blade Files (it retur
 ``` php
 {!! EuCookieConsent::getPopup() !!}
 ```
+
+If you want to give the users the option to change the permissions just add another line
+``` php
+{!! EuCookieConsent::getUpdatePopup() !!}
+```
+This gives you the possibility to call the dialog with the given user settings by javascript.
+
+Just call the following js function and the popup will appear.
+``` js
+update_popup()
+```
+
 ##### Permission
 If you want to check if the user gave you a specific permission. You can just pass the key of the Cookie you defined in the config file.
 ``` php
