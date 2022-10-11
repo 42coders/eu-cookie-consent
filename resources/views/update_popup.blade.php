@@ -14,4 +14,12 @@
         xhr.open('POST', '{{ route('updateCookie') }}');
         xhr.send();
     }
+    function euCookieConsentSetCheckboxesByClassName(classname) {
+        checkboxes = document.getElementsByClassName('eu-cookie-consent-cookie');
+        for (i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].setAttribute('checked', 'checked');
+            checkboxes[i].checked = true;
+        }
+        document.getElementById("eu-cookie-consent-form").requestSubmit();
+    }
 </script>

@@ -101,7 +101,12 @@ class EuCookieConsent
      */
     public static function getUpdatePopup()
     {
-        return view('eu-cookie-consent::update_popup');
+        $config = config('eu-cookie-consent.cookies');
+        $multiLanguageSupport = config('eu-cookie-consent.multilanguage_support');
+        return view('eu-cookie-consent::update_popup', [
+            'config' => $config,
+            'multiLanguageSupport' => $multiLanguageSupport,
+        ]);
     }
 
     /**

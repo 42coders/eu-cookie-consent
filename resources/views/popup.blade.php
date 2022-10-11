@@ -20,6 +20,12 @@
         padding-right: 20px;
         border: 1px lightgray solid;
         border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .eu-popup-button:last-child {
+        margin-left: 10px;
     }
 
     .eu-popup-button:hover {
@@ -27,15 +33,6 @@
         cursor: pointer;
     }
 </style>
-<script>
-    function euCookieConsentSetCheckboxesByClassName(classname) {
-        checkboxes = document.getElementsByClassName('eu-cookie-consent-cookie');
-        for (i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].setAttribute('checked', 'checked');
-            checkboxes[i].checked = true;
-        }
-    }
-</script>
 {{-- Popup Container --}}
 <div style="{{ config('eu-cookie-consent.popup_style') }}" class="{{ config('eu-cookie-consent.popup_classes') }}">
     {{-- Popup Title gets displayed if its set in the config --}}
@@ -65,23 +62,22 @@
     @endif
 
     {{-- Popup Form which renders the Cateries and inside of them the single Cookies --}}
-    <form action="{{ config('eu-cookie-consent.route') }}" method="POST">
+    <form action="{{ config('eu-cookie-consent.route') }}" method="POST" id="eu-cookie-consent-form">
         <div style="width: 100%;">
-
             @foreach($config['categories'] as $categoryName => $category)
                 @include('eu-cookie-consent::category')
             @endforeach
         </div>
         <div style="margin-top: 20px;">
             @if(config('eu-cookie-consent.acceptAllButton'))
-                <button class="eu-popup-button"
+                <a class="eu-popup-button"
                         onclick="euCookieConsentSetCheckboxesByClassName('eu-cookie-consent-cookie');">
                     @if($multiLanguageSupport)
                         {{__('eu-cookie-consent::cookies.acceptAllButton')}}
                     @else
                         {{ $config['acceptAllButton'] }}
                     @endif
-                </button>
+                </a>
             @endif
             <button id="saveButton" type="submit" class="eu-popup-button">
                 @if($multiLanguageSupport)
@@ -92,4 +88,14 @@
             </button>
         </div>
     </form>
+    <script>
+        function euCookieConsentSetCheckboxesByClassName(classname) {
+            checkboxes = document.getElementsByClassName('eu-cookie-consent-cookie');
+            for (i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].setAttribute('checked', 'checked');
+                checkboxes[i].checked = true;
+            }
+            document.getElementById("eu-cookie-consent-form").requestSubmit();
+        }
+    </script>
 </div>
